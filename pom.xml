@@ -13,7 +13,7 @@
 
     <version>0.2.15-SNAPSHOT</version>
     <name>Jetlang</name>
-    <url>https://github.com/OhmData/jetlang</url>
+    <url>https://github.com/jetlang/jetlang</url>
 
     <description>
         Jetlang provides a high performance java threading library. It is a complement to the java.util.concurrent
@@ -31,9 +31,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/OhmData/jetlang.git</connection>
-        <developerConnection>scm:git:git@github.com:OhmData/jetlang.git</developerConnection>
-        <url>https://github.com/OhmData/jetlang</url>
+        <connection>scm:git:https://github.com/jetlang/jetlang.git</connection>
+        <developerConnection>scm:git:git@github.com:jetlang/jetlang.git</developerConnection>
+        <url>https://github.com/jetlang/jetlang</url>
     </scm>
 
     <developers>
@@ -211,7 +211,7 @@
     <distributionManagement>
         <site>
             <id>github</id>
-            <url>https://github.com/OhmData/jetlang.git</url>
+            <url>https://github.com/jetlang/jetlang.git</url>
         </site>
     </distributionManagement>
 
