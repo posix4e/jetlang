@@ -26,7 +26,7 @@ public abstract class Actor {
 
     public void start() {
         // set up subscription listener
-        Callback<String> onRecieve = new Callback<String>() {
+        Callback<String> onReceive = new Callback<String>() {
             public void onMessage(String message) {
                 String newMsg = act(message);
                 Main.Log(newMsg);
@@ -36,7 +36,7 @@ public abstract class Actor {
             }
         };
         // subscribe to incoming channel
-        inChannel.subscribe(fiber, onRecieve);
+        inChannel.subscribe(fiber, onReceive);
 
         Callback<Void> onStop = new Callback<Void>() {
             public void onMessage(Void message) {
