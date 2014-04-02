@@ -21,9 +21,7 @@ public class Pong {
         };
         channels.Ping.subscribe(consumer, onReceive);
 
-        Callback<Void> onStop = message -> {
-            consumer.dispose();
-        };
+        Callback<Void> onStop = message -> consumer.dispose();
         channels.Stop.subscribe(consumer, onStop);
         consumer.start();
     }

@@ -55,9 +55,7 @@ public class MemoryRequestChannelTest {
         Fiber req = startFiber();
         Fiber reply = startFiber();
         MemoryRequestChannel<String, Integer> channel = new MemoryRequestChannel<>();
-        Callback<Request<String, Integer>> onReq = message -> {
-            message.reply(1);
-        };
+        Callback<Request<String, Integer>> onReq = message -> message.reply(1);
         channel.subscribe(reply, onReq);
 
         final CountDownLatch done = new CountDownLatch(1);
@@ -75,9 +73,7 @@ public class MemoryRequestChannelTest {
         MemoryRequestChannel<String, Integer> channel = new MemoryRequestChannel<>();
 
         final CountDownLatch done = new CountDownLatch(1);
-        Callback<Integer> onReply = message -> {
-            fail();
-        };
+        Callback<Integer> onReply = message -> fail();
         Runnable runnable = done::countDown;
         AsyncRequest.withOneReply(req, channel, "hello", onReply, 10, TimeUnit.MILLISECONDS, runnable);
         assertTrue(done.await(10, TimeUnit.SECONDS));
@@ -100,9 +96,7 @@ public class MemoryRequestChannelTest {
         channel.subscribe(reply, onReq, onReqEnd);
 
         final CountDownLatch done = new CountDownLatch(1);
-        Callback<Integer> onReply = message -> {
-            fail();
-        };
+        Callback<Integer> onReply = message -> fail();
         Runnable runnable = done::countDown;
         AsyncRequest.withOneReply(req, channel, "hello", onReply, 10, TimeUnit.MILLISECONDS, runnable);
         assertTrue(done.await(10, TimeUnit.SECONDS));
@@ -116,12 +110,8 @@ public class MemoryRequestChannelTest {
         Fiber reply = startFiber();
         MemoryRequestChannel<String, Integer> channel = new MemoryRequestChannel<>();
         final CountDownLatch done = new CountDownLatch(1);
-        Callback<Request<String, Integer>> onReq = message -> {
-            message.reply(1);
-        };
-        Callback<SessionClosed<String>> onEnd = message -> {
-            done.countDown();
-        };
+        Callback<Request<String, Integer>> onReq = message -> message.reply(1);
+        Callback<SessionClosed<String>> onEnd = message -> done.countDown();
         channel.subscribe(reply, onReq, onEnd);
 
         final CountDownLatch rcv = new CountDownLatch(1);
@@ -147,9 +137,7 @@ public class MemoryRequestChannelTest {
                 message.reply(i);
             }
         };
-        Callback<SessionClosed<String>> onEnd = message -> {
-            done.countDown();
-        };
+        Callback<SessionClosed<String>> onEnd = message -> done.countDown();
         channel.subscribe(reply, onReq, onEnd);
 
         final CountDownLatch rcv = new CountDownLatch(1);
@@ -176,9 +164,7 @@ public class MemoryRequestChannelTest {
             assertEquals(0, message.size());
             timeout.countDown();
         };
-        Callback<List<Integer>> onResp = message -> {
-            fail();
-        };
+        Callback<List<Integer>> onResp = message -> fail();
         AsyncRequest<String, Integer> async = new AsyncRequest<>(req);
         async.setTimeout(onTimeout, 10, TimeUnit.MILLISECONDS)
                 .publish(channel, "hello", onResp);

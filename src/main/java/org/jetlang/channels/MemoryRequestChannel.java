@@ -61,9 +61,7 @@ public class MemoryRequestChannel<R, V> implements RequestChannel<R, V> {
         }
 
         public void reply(final V msg) {
-            Runnable onMsg = () -> {
-                consumeMsg(msg);
-            };
+            Runnable onMsg = () -> consumeMsg(msg);
             target.execute(onMsg);
         }
 
