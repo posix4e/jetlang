@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class SynchronousDisposingExecutor implements RunnableExecutor {
     private volatile boolean _running = true;
-    private final List<Disposable> _onStop = new ArrayList<Disposable>();
+    private final List<Disposable> _onStop = new ArrayList<>();
 
     public void execute(Runnable command) {
         if (_running) {
@@ -36,7 +36,7 @@ public class SynchronousDisposingExecutor implements RunnableExecutor {
 
     public void dispose() {
         _running = false;
-        for (Disposable run : new ArrayList<Disposable>(_onStop)) {
+        for (Disposable run : new ArrayList<>(_onStop)) {
             run.dispose();
         }
     }

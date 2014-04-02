@@ -29,7 +29,7 @@ public class LockFreeBatchSubscriber<T> extends BaseSubscription<T> {
     /**
      * we need lock-free Queue implementation here
      */
-    private final ConcurrentLinkedQueue<T> queue = new ConcurrentLinkedQueue<T>();
+    private final ConcurrentLinkedQueue<T> queue = new ConcurrentLinkedQueue<>();
     private final Runnable flushRunnable;
 
 

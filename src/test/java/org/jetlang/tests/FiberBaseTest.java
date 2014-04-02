@@ -133,10 +133,10 @@ public abstract class FiberBaseTest extends Assert {
     @Test
     public void PubSub() throws InterruptedException {
         _bus.start();
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
 
         channel.publish("hello");
-        final List<String> received = new ArrayList<String>();
+        final List<String> received = new ArrayList<>();
         final CountDownLatch reset = new CountDownLatch(1);
         Callback<String> onReceive = new Callback<String>() {
             public void onMessage(String data) {
@@ -158,7 +158,7 @@ public abstract class FiberBaseTest extends Assert {
     @Test
     public void UnsubOnStop() throws InterruptedException {
         _bus.start();
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
         Callback<String> onReceive = new Callback<String>() {
             public void onMessage(String data) {
             }
@@ -172,7 +172,7 @@ public abstract class FiberBaseTest extends Assert {
     @Test
     public void Unsub() throws InterruptedException {
         _bus.start();
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
         Callback<String> onReceive = new Callback<String>() {
             public void onMessage(String data) {
             }

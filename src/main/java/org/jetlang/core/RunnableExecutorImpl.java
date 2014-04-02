@@ -11,7 +11,7 @@ import java.util.List;
 public class RunnableExecutorImpl implements RunnableExecutor {
 
     private final EventQueue _commands;
-    private final List<Disposable> _disposables = Collections.synchronizedList(new ArrayList<Disposable>());
+    private final List<Disposable> _disposables = Collections.synchronizedList(new ArrayList<>());
 
     private final BatchExecutor _commandExecutor;
 

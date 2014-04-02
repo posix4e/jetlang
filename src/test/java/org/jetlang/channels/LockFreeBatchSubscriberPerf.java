@@ -57,8 +57,8 @@ public class LockFreeBatchSubscriberPerf {
                 }
             }
         };
-        Channel<String> c = new MemoryChannel<String>();
-        LockFreeBatchSubscriber<String> sub = new LockFreeBatchSubscriber<String>(fiber, cb, 0, TimeUnit.MICROSECONDS);
+        Channel<String> c = new MemoryChannel<>();
+        LockFreeBatchSubscriber<String> sub = new LockFreeBatchSubscriber<>(fiber, cb, 0, TimeUnit.MICROSECONDS);
         //BatchSubscriber<String> sub = new BatchSubscriber<String>(fiber, listCb, 0, TimeUnit.MICROSECONDS);
         //RecyclingBatchSubscriber<String> sub = new RecyclingBatchSubscriber<String>(fiber, recyclingCb, 0, TimeUnit.MICROSECONDS);
 

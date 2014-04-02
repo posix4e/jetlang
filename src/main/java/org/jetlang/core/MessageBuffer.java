@@ -3,7 +3,7 @@ package org.jetlang.core;
 import java.util.ArrayList;
 
 public class MessageBuffer<T> implements MessageReader<T> {
-    private ArrayList<T> events = new ArrayList<T>();
+    private ArrayList<T> events = new ArrayList<>();
 
     public int size() {
         return events.size();

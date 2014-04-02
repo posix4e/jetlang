@@ -15,8 +15,8 @@ public class SubscriberListTest {
 
     @Test
     public void addAndRemove() {
-        SubscriberList<String> list = new SubscriberList<String>();
-        final List<String> received = new ArrayList<String>();
+        SubscriberList<String> list = new SubscriberList<>();
+        final List<String> received = new ArrayList<>();
         Callback<String> cb = new Callback<String>() {
             public void onMessage(String message) {
                 received.add(message);
@@ -37,8 +37,8 @@ public class SubscriberListTest {
 
     @Test
     public void addAndRemoveWithTwo() {
-        SubscriberList<String> list = new SubscriberList<String>();
-        final List<String> received = new ArrayList<String>();
+        SubscriberList<String> list = new SubscriberList<>();
+        final List<String> received = new ArrayList<>();
         Callback<String> cb = new Callback<String>() {
             public void onMessage(String message) {
                 received.add(message);
@@ -62,7 +62,7 @@ public class SubscriberListTest {
     @Test
     @Ignore
     public void perfTest() {
-        SubscriberList<String> list = new SubscriberList<String>();
+        SubscriberList<String> list = new SubscriberList<>();
         Callback<String> cb = new Callback<String>() {
             public void onMessage(String message) {
             }
@@ -80,7 +80,7 @@ public class SubscriberListTest {
     @Test
     @Ignore
     public void perfTestWithCopyOnWrite() {
-        CopyOnWriteArrayList<Callback<String>> list = new CopyOnWriteArrayList<Callback<String>>();
+        CopyOnWriteArrayList<Callback<String>> list = new CopyOnWriteArrayList<>();
         Callback<String> cb = new Callback<String>() {
             public void onMessage(String message) {
             }

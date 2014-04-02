@@ -13,7 +13,7 @@ public class PipelineLatencyMain {
         int channelCount = 5;
         MemoryChannel<Msg>[] channels = new MemoryChannel[channelCount];
         for (int i = 0; i < channels.length; i++) {
-            channels[i] = new MemoryChannel<Msg>();
+            channels[i] = new MemoryChannel<>();
         }
 
         final ThreadFiber[] fibers = new ThreadFiber[channelCount];

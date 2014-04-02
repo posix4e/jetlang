@@ -11,7 +11,7 @@ public class SynchronousDisposingExecutorTest {
     @Test
     public void dispose() {
         SynchronousDisposingExecutor exec = new SynchronousDisposingExecutor();
-        Channel<String> channel = new MemoryChannel<String>();
+        Channel<String> channel = new MemoryChannel<>();
         channel.subscribe(exec, new Callback<String>() {
             public void onMessage(String message) {
                 fail(message);

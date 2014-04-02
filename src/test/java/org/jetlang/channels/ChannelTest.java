@@ -38,7 +38,7 @@ public class ChannelTest {
 
         final CountDownLatch latch = new CountDownLatch(1);
 
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
 
         Callback<String> onMsg = new Callback<String>() {
             public void onMessage(String message) {
@@ -61,10 +61,10 @@ public class ChannelTest {
 
     @Test
     public void PubSub() {
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
         SynchronousDisposingExecutor queue = new SynchronousDisposingExecutor();
         channel.publish("hello");
-        final List<String> received = new ArrayList<String>();
+        final List<String> received = new ArrayList<>();
         Callback<String> onReceive = new Callback<String>() {
             public void onMessage(String data) {
                 received.add(data);
@@ -81,9 +81,9 @@ public class ChannelTest {
 
     @Test
     public void pubSubFilterTest() {
-        MemoryChannel<Integer> channel = new MemoryChannel<Integer>();
+        MemoryChannel<Integer> channel = new MemoryChannel<>();
         SynchronousDisposingExecutor execute = new SynchronousDisposingExecutor();
-        final List<Integer> received = new ArrayList<Integer>();
+        final List<Integer> received = new ArrayList<>();
         Callback<Integer> onReceive = new Callback<Integer>() {
             public void onMessage(Integer num) {
                 received.add(num);
@@ -95,7 +95,7 @@ public class ChannelTest {
                 return msg % 2 == 0;
             }
         };
-        ChannelSubscription<Integer> subber = new ChannelSubscription<Integer>(execute, onReceive, filter);
+        ChannelSubscription<Integer> subber = new ChannelSubscription<>(execute, onReceive, filter);
 
         channel.subscribeOnProducerThread(execute, subber);
         for (int i = 0; i <= 4; i++) {
@@ -110,7 +110,7 @@ public class ChannelTest {
 
     @Test
     public void pubSubUnsubscribe() {
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
         SynchronousDisposingExecutor execute = new SynchronousDisposingExecutor();
         final boolean[] received = new boolean[1];
         Callback<String> onReceive = new Callback<String>() {
@@ -129,7 +129,7 @@ public class ChannelTest {
 
     @Test
     public void SubToBatch() {
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
         FiberStub execute = new FiberStub();
         final boolean[] received = new boolean[1];
         Callback<List<String>> onReceive = new Callback<List<String>>() {
@@ -141,7 +141,7 @@ public class ChannelTest {
             }
         };
 
-        BatchSubscriber<String> subscriber = new BatchSubscriber<String>(execute, onReceive, 10, TimeUnit.MILLISECONDS);
+        BatchSubscriber<String> subscriber = new BatchSubscriber<>(execute, onReceive, 10, TimeUnit.MILLISECONDS);
         channel.subscribe(subscriber);
 
         for (int i = 0; i < 5; i++) {
@@ -160,7 +160,7 @@ public class ChannelTest {
 
     @Test
     public void subToKeyedBatch() {
-        MemoryChannel<Integer> channel = new MemoryChannel<Integer>();
+        MemoryChannel<Integer> channel = new MemoryChannel<>();
         FiberStub execute = new FiberStub();
         final boolean[] received = new boolean[1];
         Callback<Map<String, Integer>> onReceive = new Callback<Map<String, Integer>>() {
@@ -176,7 +176,7 @@ public class ChannelTest {
             }
         };
         KeyedBatchSubscriber<String, Integer> subscriber
-                = new KeyedBatchSubscriber<String, Integer>(execute, onReceive, 0, TimeUnit.MILLISECONDS, key);
+                = new KeyedBatchSubscriber<>(execute, onReceive, 0, TimeUnit.MILLISECONDS, key);
         channel.subscribe(subscriber);
 
         for (int i = 0; i < 5; i++) {
@@ -196,9 +196,9 @@ public class ChannelTest {
 
     @Test
     public void SubscribeToLast() {
-        MemoryChannel<Integer> channel = new MemoryChannel<Integer>();
+        MemoryChannel<Integer> channel = new MemoryChannel<>();
         FiberStub execute = new FiberStub();
-        final List<Integer> received = new ArrayList<Integer>();
+        final List<Integer> received = new ArrayList<>();
         Callback<Integer> onReceive = new Callback<Integer>() {
             public void onMessage(Integer data)
 
@@ -206,7 +206,7 @@ public class ChannelTest {
                 received.add(data);
             }
         };
-        LastSubscriber<Integer> lastSub = new LastSubscriber<Integer>(execute, onReceive, 3, TimeUnit.MILLISECONDS);
+        LastSubscriber<Integer> lastSub = new LastSubscriber<>(execute, onReceive, 3, TimeUnit.MILLISECONDS);
         channel.subscribe(lastSub);
         for (int i = 0; i < 5; i++) {
             channel.publish(i);
@@ -229,8 +229,8 @@ public class ChannelTest {
 
     @Test
     public void AsyncRequestReplyWithPrivateChannel() throws InterruptedException {
-        MemoryChannel<MemoryChannel<String>> requestChannel = new MemoryChannel<MemoryChannel<String>>();
-        MemoryChannel<String> replyChannel = new MemoryChannel<String>();
+        MemoryChannel<MemoryChannel<String>> requestChannel = new MemoryChannel<>();
+        MemoryChannel<String> replyChannel = new MemoryChannel<>();
         Fiber responder = startFiber();
         Fiber receiver = startFiber();
         final CountDownLatch reset = new CountDownLatch(1);
@@ -256,7 +256,7 @@ public class ChannelTest {
 
     @Test
     public void asyncRequestReplyWithBlockingQueue() throws InterruptedException {
-        MemoryChannel<BlockingQueue<String>> requestChannel = new MemoryChannel<BlockingQueue<String>>();
+        MemoryChannel<BlockingQueue<String>> requestChannel = new MemoryChannel<>();
         Fiber responder = startFiber();
         Callback<BlockingQueue<String>> onRequest = new Callback<BlockingQueue<String>>() {
             public void onMessage(BlockingQueue<String> message) {
@@ -267,7 +267,7 @@ public class ChannelTest {
 
         requestChannel.subscribe(responder, onRequest);
 
-        BlockingQueue<String> requestQueue = new ArrayBlockingQueue<String>(5);
+        BlockingQueue<String> requestQueue = new ArrayBlockingQueue<>(5);
 
         requestChannel.publish(requestQueue);
         for (int i = 0; i < 5; i++) {
@@ -303,7 +303,7 @@ public class ChannelTest {
     }
 
     private void runPerfTest(Fiber bus) throws InterruptedException {
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
 
         final int max = 10000000;
         final CountDownLatch reset = new CountDownLatch(1);
@@ -335,7 +335,7 @@ public class ChannelTest {
         ThreadFiber bus = new ThreadFiber();
         bus.start();
 
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
 
         final int max = 10000000;
         final CountDownLatch reset = new CountDownLatch(1);
@@ -350,7 +350,7 @@ public class ChannelTest {
             }
         };
 
-        BatchSubscriber<String> batch = new BatchSubscriber<String>(bus, cb, 0, TimeUnit.MILLISECONDS);
+        BatchSubscriber<String> batch = new BatchSubscriber<>(bus, cb, 0, TimeUnit.MILLISECONDS);
         channel.subscribe(batch);
         PerfTimer timer = new PerfTimer(max);
         try {
@@ -370,7 +370,7 @@ public class ChannelTest {
         ThreadFiber bus = new ThreadFiber();
         bus.start();
 
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
 
         final int max = 10000000;
         final CountDownLatch reset = new CountDownLatch(1);
@@ -385,7 +385,7 @@ public class ChannelTest {
             }
         };
 
-        RecyclingBatchSubscriber<String> batch = new RecyclingBatchSubscriber<String>(bus, cb, 0, TimeUnit.MILLISECONDS);
+        RecyclingBatchSubscriber<String> batch = new RecyclingBatchSubscriber<>(bus, cb, 0, TimeUnit.MILLISECONDS);
         channel.subscribe(batch);
         PerfTimer timer = new PerfTimer(max);
         try {

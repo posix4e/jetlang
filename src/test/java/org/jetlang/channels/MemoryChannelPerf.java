@@ -7,7 +7,7 @@ import org.jetlang.core.SynchronousDisposingExecutor;
 public class MemoryChannelPerf {
 
     public static void main(String[] args) {
-        MemoryChannel<String> channel = new MemoryChannel<String>();
+        MemoryChannel<String> channel = new MemoryChannel<>();
         Callback<String> cb = new Callback<String>() {
             public void onMessage(String message) {
             }
