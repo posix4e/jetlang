@@ -1,10 +1,13 @@
 package org.jetlang.core;
 
-import static junit.framework.Assert.*;
 import org.jetlang.fibers.FiberStub;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * User: mrettig

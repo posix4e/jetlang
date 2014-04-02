@@ -1,7 +1,17 @@
 package org.jetlang.examples;
 
 
-import org.jetlang.channels.*;
+import org.jetlang.channels.AsyncRequest;
+import org.jetlang.channels.BatchSubscriber;
+import org.jetlang.channels.Channel;
+import org.jetlang.channels.ChannelSubscription;
+import org.jetlang.channels.CompositeChannel;
+import org.jetlang.channels.Converter;
+import org.jetlang.channels.KeyedBatchSubscriber;
+import org.jetlang.channels.MemoryChannel;
+import org.jetlang.channels.MemoryRequestChannel;
+import org.jetlang.channels.Request;
+import org.jetlang.channels.RequestChannel;
 import org.jetlang.core.Callback;
 import org.jetlang.core.Disposable;
 import org.jetlang.core.Filter;
@@ -13,7 +23,12 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

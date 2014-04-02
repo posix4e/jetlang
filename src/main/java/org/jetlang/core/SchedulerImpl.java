@@ -1,6 +1,14 @@
 package org.jetlang.core;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -16,7 +24,7 @@ public class SchedulerImpl implements Scheduler {
         _scheduler = service;
     }
 
-    public SchedulerImpl(Executor queue){
+    public SchedulerImpl(Executor queue) {
         this(queue, createSchedulerThatIgnoresEventsAfterStop());
     }
 

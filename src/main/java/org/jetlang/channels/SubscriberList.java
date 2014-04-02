@@ -36,8 +36,7 @@ public class SubscriberList<T> {
         lock.lock();
         try {
             subscribers = EMPTY;
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
     }

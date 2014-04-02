@@ -1,6 +1,10 @@
 package org.jetlang.fibers;
 
-import org.jetlang.core.*;
+import org.jetlang.core.Disposable;
+import org.jetlang.core.RunnableExecutor;
+import org.jetlang.core.RunnableExecutorImpl;
+import org.jetlang.core.Scheduler;
+import org.jetlang.core.SchedulerImpl;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +37,7 @@ public class ThreadFiber implements Fiber {
         _scheduler = scheduler;
     }
 
-    public ThreadFiber(RunnableExecutor queue, String threadName, boolean isDaemonThread){
+    public ThreadFiber(RunnableExecutor queue, String threadName, boolean isDaemonThread) {
         this(queue, threadName, isDaemonThread, new SchedulerImpl(queue));
     }
 

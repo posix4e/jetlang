@@ -1,18 +1,31 @@
 package org.jetlang.channels;
 
 import org.jetlang.PerfTimer;
-import org.jetlang.core.*;
+import org.jetlang.core.Callback;
+import org.jetlang.core.Disposable;
+import org.jetlang.core.Filter;
+import org.jetlang.core.MessageReader;
+import org.jetlang.core.RunnableExecutorImpl;
+import org.jetlang.core.SynchronousDisposingExecutor;
 import org.jetlang.fibers.Fiber;
 import org.jetlang.fibers.FiberStub;
 import org.jetlang.fibers.PoolFiberFactory;
 import org.jetlang.fibers.ThreadFiber;
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: mrettig

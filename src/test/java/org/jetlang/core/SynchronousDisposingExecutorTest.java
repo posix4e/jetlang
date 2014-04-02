@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 public class SynchronousDisposingExecutorTest {
 
     @Test
-    public void dispose(){
+    public void dispose() {
         SynchronousDisposingExecutor exec = new SynchronousDisposingExecutor();
         Channel<String> channel = new MemoryChannel<String>();
         channel.subscribe(exec, new Callback<String>() {
