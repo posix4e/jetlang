@@ -33,8 +33,7 @@ public class LockFreeBatchSubscriberPerf {
             int count = 0;
 
             public void onMessage(List<String> message) {
-                for (int val = 0; val < message.size(); val++) {
-                    String m = message.get(val);
+                for (String m : message) {
                     count++;
                 }
                 if (count >= total) {
