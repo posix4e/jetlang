@@ -21,10 +21,11 @@ public class PoolFiberFactory implements Disposable {
      * Construct a new instance.
      *
      * @param executor Executor to use for flushing pending commands for each created Fiber
+     * @param scheduler Scheduler
      */
-    public PoolFiberFactory(Executor executor, ScheduledExecutorService sched) {
+    public PoolFiberFactory(Executor executor, ScheduledExecutorService scheduler) {
         this.executor = executor;
-        this._scheduler = sched;
+        this._scheduler = scheduler;
     }
 
     public PoolFiberFactory(Executor exec) {

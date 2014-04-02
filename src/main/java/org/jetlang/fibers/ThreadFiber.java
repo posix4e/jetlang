@@ -89,6 +89,8 @@ public class ThreadFiber implements Fiber {
 
     /**
      * Wait for thread to complete
+     *
+     * @throws java.lang.InterruptedException
      */
     public void join() throws InterruptedException {
         _thread.join();
