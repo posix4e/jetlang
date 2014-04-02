@@ -18,9 +18,9 @@ public class ThreadRingJetlang {
 
     public static class MessageThread {
         MessageThread nextThread;
-        private int name;
-        private Fiber fiber;
-        private CountDownLatch done;
+        private final int name;
+        private final Fiber fiber;
+        private final CountDownLatch done;
 
         public MessageThread(MessageThread nextThread, int name, Fiber fiber, CountDownLatch done) {
             this.nextThread = nextThread;

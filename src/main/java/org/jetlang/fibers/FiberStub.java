@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("Convert2Lambda")
 public class FiberStub implements Fiber {
 
-    public List<Disposable> Disposables = new ArrayList<>();
-    public List<Runnable> Pending = new ArrayList<>();
-    public List<ScheduledEvent> Scheduled = new ArrayList<>();
+    public final List<Disposable> Disposables = new ArrayList<>();
+    public final List<Runnable> Pending = new ArrayList<>();
+    public final List<ScheduledEvent> Scheduled = new ArrayList<>();
 
     public void start() {
     }

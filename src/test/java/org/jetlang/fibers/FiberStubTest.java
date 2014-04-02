@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class FiberStubTest {
 
-    Runnable emptyRunnable = () -> {
+    final Runnable emptyRunnable = () -> {
 
     };
 

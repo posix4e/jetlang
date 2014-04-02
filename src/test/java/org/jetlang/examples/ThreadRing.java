@@ -14,7 +14,7 @@ public class ThreadRing {
 
     public static class MessageThread extends Thread {
         MessageThread nextThread;
-        private CountDownLatch done;
+        private final CountDownLatch done;
         volatile Integer message;
 
         public MessageThread(MessageThread nextThread, int name, CountDownLatch done) {

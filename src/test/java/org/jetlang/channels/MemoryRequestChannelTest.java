@@ -24,7 +24,7 @@ public class MemoryRequestChannelTest {
     private static ExecutorService pool;
     private static PoolFiberFactory fiberPool;
 
-    private List<Fiber> active = new ArrayList<>();
+    private final List<Fiber> active = new ArrayList<>();
 
     @BeforeClass
     public static void createPool() {

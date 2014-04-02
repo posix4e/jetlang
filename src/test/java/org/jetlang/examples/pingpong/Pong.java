@@ -5,8 +5,8 @@ import org.jetlang.fibers.Fiber;
 
 public class Pong {
 
-    private PingPongChannels channels;
-    private Fiber consumer;
+    private final PingPongChannels channels;
+    private final Fiber consumer;
 
     public Pong(PingPongChannels channels, Fiber fiber) {
         this.channels = channels;

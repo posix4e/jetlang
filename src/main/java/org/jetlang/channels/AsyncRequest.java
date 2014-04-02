@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AsyncRequest<R, V> {
-    private Fiber target;
+    private final Fiber target;
     private BatchTimeout<V> timeout;
     private int responses = 1;
 

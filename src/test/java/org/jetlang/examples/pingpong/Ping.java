@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Ping {
 
-    private PingPongChannels channels;
-    private Fiber consumer;
+    private final PingPongChannels channels;
+    private final Fiber consumer;
     private int total;
 
     public Ping(PingPongChannels channels, Fiber fiber, int total) {

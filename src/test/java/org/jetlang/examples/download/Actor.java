@@ -6,11 +6,11 @@ import org.jetlang.fibers.Fiber;
 
 public abstract class Actor {
 
-    private Channel<String> inChannel;
-    private Channel<String> outChannel;
-    private Channel<Void> stopChannel;
-    private Channel<Void> nextStopChannel;
-    private Fiber fiber;
+    private final Channel<String> inChannel;
+    private final Channel<String> outChannel;
+    private final Channel<Void> stopChannel;
+    private final Channel<Void> nextStopChannel;
+    private final Fiber fiber;
 
     public Actor(Channel<String> inChannel,
                  Channel<String> outChannel,
