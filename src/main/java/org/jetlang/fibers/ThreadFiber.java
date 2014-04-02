@@ -27,11 +27,7 @@ public class ThreadFiber implements Fiber {
      */
     public ThreadFiber(RunnableExecutor queue, String threadName, boolean isDaemonThread, Scheduler scheduler) {
         _queue = queue;
-        Runnable runThread = new Runnable() {
-            public void run() {
-                _queue.run();
-            }
-        };
+        Runnable runThread = _queue::run;
         _thread = createThread(threadName, runThread);
         _thread.setDaemon(isDaemonThread);
         _scheduler = scheduler;

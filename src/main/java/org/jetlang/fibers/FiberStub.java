@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  *
  * FOR TESTING ONLY
  */
+@SuppressWarnings("Convert2Lambda")
 public class FiberStub implements Fiber {
 
     public List<Disposable> Disposables = new ArrayList<>();
@@ -39,20 +40,16 @@ public class FiberStub implements Fiber {
     public Disposable schedule(Runnable runnable, long l, TimeUnit timeUnit) {
         final ScheduledEvent event = new ScheduledEvent(runnable, l, timeUnit);
         Scheduled.add(event);
-        return new Disposable() {
-            public void dispose() {
-                Scheduled.remove(event);
-            }
+        return () -> {
+            Scheduled.remove(event);
         };
     }
 
     public Disposable scheduleAtFixedRate(Runnable runnable, long first, long interval, TimeUnit timeUnit) {
         final ScheduledEvent event = new ScheduledEvent(runnable, first, interval, timeUnit);
         Scheduled.add(event);
-        return new Disposable() {
-            public void dispose() {
-                Scheduled.remove(event);
-            }
+        return () -> {
+            Scheduled.remove(event);
         };
     }
 

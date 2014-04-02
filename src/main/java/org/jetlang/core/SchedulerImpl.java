@@ -35,13 +35,11 @@ public class SchedulerImpl implements Scheduler {
 
     public static ScheduledThreadPoolExecutor createSchedulerThatIgnoresEventsAfterStop(ThreadFactory fact) {
         ScheduledThreadPoolExecutor s = new ScheduledThreadPoolExecutor(1, fact);
-        RejectedExecutionHandler handler = new RejectedExecutionHandler() {
-            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                if (!executor.isShutdown()) {
-                    throw new RejectedExecutionException("Rejected Execution: " + r);
-                }
-                //ignore tasks if shutdown already.
+        RejectedExecutionHandler handler = (r, executor) -> {
+            if (!executor.isShutdown()) {
+                throw new RejectedExecutionException("Rejected Execution: " + r);
             }
+            //ignore tasks if shutdown already.
         };
         s.setRejectedExecutionHandler(handler);
         return s;

@@ -17,11 +17,7 @@ public class SubscriberListTest {
     public void addAndRemove() {
         SubscriberList<String> list = new SubscriberList<>();
         final List<String> received = new ArrayList<>();
-        Callback<String> cb = new Callback<String>() {
-            public void onMessage(String message) {
-                received.add(message);
-            }
-        };
+        Callback<String> cb = received::add;
 
         list.add(cb);
         assertEquals(1, list.size());
@@ -39,11 +35,7 @@ public class SubscriberListTest {
     public void addAndRemoveWithTwo() {
         SubscriberList<String> list = new SubscriberList<>();
         final List<String> received = new ArrayList<>();
-        Callback<String> cb = new Callback<String>() {
-            public void onMessage(String message) {
-                received.add(message);
-            }
-        };
+        Callback<String> cb = received::add;
 
         list.add(cb);
         list.add(cb);
@@ -63,9 +55,7 @@ public class SubscriberListTest {
     @Ignore
     public void perfTest() {
         SubscriberList<String> list = new SubscriberList<>();
-        Callback<String> cb = new Callback<String>() {
-            public void onMessage(String message) {
-            }
+        Callback<String> cb = message -> {
         };
 
         list.add(cb);
@@ -81,9 +71,7 @@ public class SubscriberListTest {
     @Ignore
     public void perfTestWithCopyOnWrite() {
         CopyOnWriteArrayList<Callback<String>> list = new CopyOnWriteArrayList<>();
-        Callback<String> cb = new Callback<String>() {
-            public void onMessage(String message) {
-            }
+        Callback<String> cb = message -> {
         };
 
         list.add(cb);

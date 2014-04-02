@@ -26,25 +26,21 @@ public abstract class Actor {
 
     public void start() {
         // set up subscription listener
-        Callback<String> onReceive = new Callback<String>() {
-            public void onMessage(String message) {
-                String newMsg = act(message);
-                Main.Log(newMsg);
-                if (outChannel != null) {
-                    outChannel.publish(newMsg);
-                }
+        Callback<String> onReceive = message -> {
+            String newMsg = act(message);
+            Main.Log(newMsg);
+            if (outChannel != null) {
+                outChannel.publish(newMsg);
             }
         };
         // subscribe to incoming channel
         inChannel.subscribe(fiber, onReceive);
 
-        Callback<Void> onStop = new Callback<Void>() {
-            public void onMessage(Void message) {
-                if (nextStopChannel != null) {
-                    nextStopChannel.publish(null);
-                }
-                fiber.dispose();
+        Callback<Void> onStop = message -> {
+            if (nextStopChannel != null) {
+                nextStopChannel.publish(null);
             }
+            fiber.dispose();
         };
         stopChannel.subscribe(fiber, onStop);
         // start the fiber

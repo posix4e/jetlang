@@ -55,13 +55,11 @@ public class PingPongTest {
         final Integer max = 1000;
         final CountDownLatch reset = new CountDownLatch(1);
 
-        Callback<Integer> onPong = new Callback<Integer>() {
-            public void onMessage(Integer count) {
-                if (count.equals(max)) {
-                    reset.countDown();
-                } else {
-                    pingChannel.publish(pongChannel);
-                }
+        Callback<Integer> onPong = count -> {
+            if (count.equals(max)) {
+                reset.countDown();
+            } else {
+                pingChannel.publish(pongChannel);
             }
         };
 

@@ -39,11 +39,7 @@ public class PingPongTest {
         PingPongChannels channels = new PingPongChannels();
 
         final CountDownLatch onstop = new CountDownLatch(2);
-        Disposable dispose = new Disposable() {
-            public void dispose() {
-                onstop.countDown();
-            }
-        };
+        Disposable dispose = onstop::countDown;
         Fiber pingThread = fact.create();
         pingThread.add(dispose);
         Ping ping = new Ping(channels, pingThread, 100000);

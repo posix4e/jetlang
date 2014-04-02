@@ -24,11 +24,7 @@ public class Main {
         // will block until the latch is zero, so that way the manager waits
         // for all the actors to complete before exiting
         final CountDownLatch onstop = new CountDownLatch(NUM_ACTORS);
-        Disposable dispose = new Disposable() {
-            public void dispose() {
-                onstop.countDown();
-            }
-        };
+        Disposable dispose = onstop::countDown;
 
         Fiber downloadFiber = factory.create();
         downloadFiber.add(dispose);

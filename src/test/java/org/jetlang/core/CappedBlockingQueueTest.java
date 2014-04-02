@@ -28,22 +28,18 @@ public class CappedBlockingQueueTest {
         consumer.start();
         final Fiber producer = new ThreadFiber();
         producer.start();
-        final Runnable consumerBlock = new Runnable() {
-            public void run() {
-                try {
-                    unblockConsumerLatch.await();
-                    consumedCountDown.countDown();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        final Runnable consumerBlock = () -> {
+            try {
+                unblockConsumerLatch.await();
+                consumedCountDown.countDown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         };
-        Runnable producerBlock = new Runnable() {
-            public void run() {
-                for (int i = 0; i < 10; i++) {
-                    publishedCount.incrementAndGet();
-                    consumer.execute(consumerBlock);
-                }
+        Runnable producerBlock = () -> {
+            for (int i = 0; i < 10; i++) {
+                publishedCount.incrementAndGet();
+                consumer.execute(consumerBlock);
             }
         };
         producer.execute(producerBlock);

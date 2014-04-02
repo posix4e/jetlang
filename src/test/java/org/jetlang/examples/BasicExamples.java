@@ -48,11 +48,7 @@ public class BasicExamples {
         Channel<String> channel = new MemoryChannel<>();
 
         final CountDownLatch reset = new CountDownLatch(1);
-        Callback<String> runnable = new Callback<String>() {
-            public void onMessage(String msg) {
-                reset.countDown();
-            }
-        };
+        Callback<String> runnable = msg -> reset.countDown();
         channel.subscribe(fiber, runnable);
         channel.publish("hello");
 
@@ -69,11 +65,7 @@ public class BasicExamples {
         Channel<String> channel = new MemoryChannel<>();
 
         final CountDownLatch reset = new CountDownLatch(1);
-        Callback<String> runnable = new Callback<String>() {
-            public void onMessage(String msg) {
-                reset.countDown();
-            }
-        };
+        Callback<String> runnable = msg -> reset.countDown();
 
         channel.subscribe(fiber, runnable);
         channel.publish("hello");
@@ -87,11 +79,7 @@ public class BasicExamples {
         Fiber fiber = new ThreadFiber();
         fiber.start();
         final CountDownLatch reset = new CountDownLatch(1);
-        Runnable runnable = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable runnable = reset::countDown;
         fiber.schedule(runnable, 1, TimeUnit.MILLISECONDS);
         Assert.assertTrue(reset.await(5000, TimeUnit.MILLISECONDS));
         fiber.dispose();
@@ -102,11 +90,7 @@ public class BasicExamples {
         Fiber fiber = new ThreadFiber();
         fiber.start();
         final CountDownLatch reset = new CountDownLatch(5);
-        Runnable runnable = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable runnable = reset::countDown;
         fiber.scheduleAtFixedRate(runnable, 1, 2, TimeUnit.MILLISECONDS);
         Assert.assertTrue(reset.await(5000, TimeUnit.MILLISECONDS));
         fiber.dispose();
@@ -118,11 +102,9 @@ public class BasicExamples {
         fiber.start();
         final CountDownLatch reset = new CountDownLatch(1);
         final CountDownLatch two = new CountDownLatch(2);
-        Callback<String> runnable = new Callback<String>() {
-            public void onMessage(String message) {
-                reset.countDown();
-                two.countDown();
-            }
+        Callback<String> runnable = message -> {
+            reset.countDown();
+            two.countDown();
         };
         Channel<String> channel = new MemoryChannel<>();
         Disposable unsub = channel.subscribe(fiber, runnable);
@@ -141,19 +123,13 @@ public class BasicExamples {
         Channel<Integer> channel = new MemoryChannel<>();
 
         final CountDownLatch reset = new CountDownLatch(1);
-        Callback<Integer> onMsg = new Callback<Integer>() {
-            public void onMessage(Integer x) {
-                Assert.assertTrue(x % 2 == 0);
-                if (x == 4) {
-                    reset.countDown();
-                }
+        Callback<Integer> onMsg = x -> {
+            Assert.assertTrue(x % 2 == 0);
+            if (x == 4) {
+                reset.countDown();
             }
         };
-        Filter<Integer> filter = new Filter<Integer>() {
-            public boolean passes(Integer msg) {
-                return msg % 2 == 0;
-            }
-        };
+        Filter<Integer> filter = msg -> msg % 2 == 0;
         ChannelSubscription<Integer> sub = new ChannelSubscription<>(fiber, onMsg, filter);
         channel.subscribe(sub);
         channel.publish(1);
@@ -208,11 +184,7 @@ public class BasicExamples {
             }
         };
 
-        Converter<Integer, String> keyResolver = new Converter<Integer, String>() {
-            public String convert(Integer msg) {
-                return msg.toString();
-            }
-        };
+        Converter<Integer, String> keyResolver = Object::toString;
         KeyedBatchSubscriber<String, Integer> batch = new KeyedBatchSubscriber<>(fiber, cb, 0, TimeUnit.MILLISECONDS, keyResolver);
         counter.subscribe(batch);
 
@@ -230,12 +202,7 @@ public class BasicExamples {
         Channel<String> channel2 = new MemoryChannel<>();
         Channel<String> comp = new CompositeChannel<>(channel, channel2);
         final CountDownLatch latch = new CountDownLatch(2);
-        Callback<String> sub = new Callback<String>() {
-
-            public void onMessage(String message) {
-                latch.countDown();
-            }
-        };
+        Callback<String> sub = message -> latch.countDown();
         Fiber fiber = new ThreadFiber();
         fiber.start();
         comp.subscribe(fiber, sub);
@@ -255,20 +222,16 @@ public class BasicExamples {
         req.start();
         reply.start();
         RequestChannel<String, Integer> channel = new MemoryRequestChannel<>();
-        Callback<Request<String, Integer>> onReq = new Callback<Request<String, Integer>>() {
-            public void onMessage(Request<String, Integer> message) {
-                assertEquals("hello", message.getRequest());
-                message.reply(1);
-            }
+        Callback<Request<String, Integer>> onReq = message -> {
+            assertEquals("hello", message.getRequest());
+            message.reply(1);
         };
         channel.subscribe(reply, onReq);
 
         final CountDownLatch done = new CountDownLatch(1);
-        Callback<Integer> onReply = new Callback<Integer>() {
-            public void onMessage(Integer message) {
-                assertEquals(1, message.intValue());
-                done.countDown();
-            }
+        Callback<Integer> onReply = message -> {
+            assertEquals(1, message.intValue());
+            done.countDown();
         };
         AsyncRequest.withOneReply(req, channel, "hello", onReply);
         assertTrue(done.await(10, TimeUnit.SECONDS));
@@ -283,13 +246,11 @@ public class BasicExamples {
         fiber.start();
         BlockingQueue<String> replyQueue = new ArrayBlockingQueue<>(1);
         MemoryChannel<BlockingQueue<String>> channel = new MemoryChannel<>();
-        Callback<BlockingQueue<String>> replyCb = new Callback<BlockingQueue<String>>() {
-            public void onMessage(BlockingQueue<String> message) {
-                try {
-                    message.put("hello");
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        Callback<BlockingQueue<String>> replyCb = message -> {
+            try {
+                message.put("hello");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         };
         channel.subscribe(fiber, replyCb);

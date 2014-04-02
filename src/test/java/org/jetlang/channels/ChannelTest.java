@@ -40,11 +40,7 @@ public class ChannelTest {
 
         MemoryChannel<String> channel = new MemoryChannel<>();
 
-        Callback<String> onMsg = new Callback<String>() {
-            public void onMessage(String message) {
-                latch.countDown();
-            }
-        };
+        Callback<String> onMsg = message -> latch.countDown();
         //add subscription for message on receiver thread
         channel.subscribe(receiver, onMsg);
 
@@ -65,11 +61,7 @@ public class ChannelTest {
         SynchronousDisposingExecutor queue = new SynchronousDisposingExecutor();
         channel.publish("hello");
         final List<String> received = new ArrayList<>();
-        Callback<String> onReceive = new Callback<String>() {
-            public void onMessage(String data) {
-                received.add(data);
-            }
-        };
+        Callback<String> onReceive = received::add;
         channel.subscribe(queue, onReceive);
         channel.publish("hello");
         assertEquals(1, received.size());
@@ -84,17 +76,9 @@ public class ChannelTest {
         MemoryChannel<Integer> channel = new MemoryChannel<>();
         SynchronousDisposingExecutor execute = new SynchronousDisposingExecutor();
         final List<Integer> received = new ArrayList<>();
-        Callback<Integer> onReceive = new Callback<Integer>() {
-            public void onMessage(Integer num) {
-                received.add(num);
-            }
-        };
+        Callback<Integer> onReceive = received::add;
 
-        Filter<Integer> filter = new Filter<Integer>() {
-            public boolean passes(Integer msg) {
-                return msg % 2 == 0;
-            }
-        };
+        Filter<Integer> filter = msg -> msg % 2 == 0;
         ChannelSubscription<Integer> subber = new ChannelSubscription<>(execute, onReceive, filter);
 
         channel.subscribeOnProducerThread(execute, subber);
@@ -113,11 +97,9 @@ public class ChannelTest {
         MemoryChannel<String> channel = new MemoryChannel<>();
         SynchronousDisposingExecutor execute = new SynchronousDisposingExecutor();
         final boolean[] received = new boolean[1];
-        Callback<String> onReceive = new Callback<String>() {
-            public void onMessage(String message) {
-                assertEquals("hello", message);
-                received[0] = true;
-            }
+        Callback<String> onReceive = message -> {
+            assertEquals("hello", message);
+            received[0] = true;
         };
         Disposable unsub = channel.subscribe(execute, onReceive);
         channel.publish("hello");
@@ -132,13 +114,11 @@ public class ChannelTest {
         MemoryChannel<String> channel = new MemoryChannel<>();
         FiberStub execute = new FiberStub();
         final boolean[] received = new boolean[1];
-        Callback<List<String>> onReceive = new Callback<List<String>>() {
-            public void onMessage(List<String> data) {
-                assertEquals(5, data.size());
-                assertEquals("0", data.get(0));
-                assertEquals("4", data.get(4));
-                received[0] = true;
-            }
+        Callback<List<String>> onReceive = data -> {
+            assertEquals(5, data.size());
+            assertEquals("0", data.get(0));
+            assertEquals("4", data.get(4));
+            received[0] = true;
         };
 
         BatchSubscriber<String> subscriber = new BatchSubscriber<>(execute, onReceive, 10, TimeUnit.MILLISECONDS);
@@ -163,18 +143,12 @@ public class ChannelTest {
         MemoryChannel<Integer> channel = new MemoryChannel<>();
         FiberStub execute = new FiberStub();
         final boolean[] received = new boolean[1];
-        Callback<Map<String, Integer>> onReceive = new Callback<Map<String, Integer>>() {
-            public void onMessage(Map<String, Integer> data) {
-                assertEquals(2, data.keySet().size());
-                assertEquals(data.get("0"), new Integer(0));
-                received[0] = true;
-            }
+        Callback<Map<String, Integer>> onReceive = data -> {
+            assertEquals(2, data.keySet().size());
+            assertEquals(data.get("0"), new Integer(0));
+            received[0] = true;
         };
-        Converter<Integer, String> key = new Converter<Integer, String>() {
-            public String convert(Integer msg) {
-                return msg.toString();
-            }
-        };
+        Converter<Integer, String> key = Object::toString;
         KeyedBatchSubscriber<String, Integer> subscriber
                 = new KeyedBatchSubscriber<>(execute, onReceive, 0, TimeUnit.MILLISECONDS, key);
         channel.subscribe(subscriber);
@@ -199,13 +173,7 @@ public class ChannelTest {
         MemoryChannel<Integer> channel = new MemoryChannel<>();
         FiberStub execute = new FiberStub();
         final List<Integer> received = new ArrayList<>();
-        Callback<Integer> onReceive = new Callback<Integer>() {
-            public void onMessage(Integer data)
-
-            {
-                received.add(data);
-            }
-        };
+        Callback<Integer> onReceive = received::add;
         LastSubscriber<Integer> lastSub = new LastSubscriber<>(execute, onReceive, 3, TimeUnit.MILLISECONDS);
         channel.subscribe(lastSub);
         for (int i = 0; i < 5; i++) {
@@ -234,18 +202,12 @@ public class ChannelTest {
         Fiber responder = startFiber();
         Fiber receiver = startFiber();
         final CountDownLatch reset = new CountDownLatch(1);
-        Callback<MemoryChannel<String>> onRequest = new Callback<MemoryChannel<String>>() {
-            public void onMessage(MemoryChannel<String> message) {
-                message.publish("hello");
-            }
-        };
+        Callback<MemoryChannel<String>> onRequest = message -> message.publish("hello");
 
         requestChannel.subscribe(responder, onRequest);
-        Callback<String> onMsg = new Callback<String>() {
-            public void onMessage(String message) {
-                assertEquals("hello", message);
-                reset.countDown();
-            }
+        Callback<String> onMsg = message -> {
+            assertEquals("hello", message);
+            reset.countDown();
         };
         replyChannel.subscribe(receiver, onMsg);
         requestChannel.publish(replyChannel);
@@ -258,11 +220,9 @@ public class ChannelTest {
     public void asyncRequestReplyWithBlockingQueue() throws InterruptedException {
         MemoryChannel<BlockingQueue<String>> requestChannel = new MemoryChannel<>();
         Fiber responder = startFiber();
-        Callback<BlockingQueue<String>> onRequest = new Callback<BlockingQueue<String>>() {
-            public void onMessage(BlockingQueue<String> message) {
-                for (int i = 0; i < 5; i++)
-                    message.add("hello" + i);
-            }
+        Callback<BlockingQueue<String>> onRequest = message -> {
+            for (int i = 0; i < 5; i++)
+                message.add("hello" + i);
         };
 
         requestChannel.subscribe(responder, onRequest);

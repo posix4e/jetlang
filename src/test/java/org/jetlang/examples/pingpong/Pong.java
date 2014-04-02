@@ -14,19 +14,15 @@ public class Pong {
     }
 
     public void start() {
-        Callback<Integer> onReceive = new Callback<Integer>() {
-            public void onMessage(Integer message) {
-                channels.Pong.publish(message);
-                if (message % 1000 == 0)
-                    System.out.println("message = " + message);
-            }
+        Callback<Integer> onReceive = message -> {
+            channels.Pong.publish(message);
+            if (message % 1000 == 0)
+                System.out.println("message = " + message);
         };
         channels.Ping.subscribe(consumer, onReceive);
 
-        Callback<Void> onStop = new Callback<Void>() {
-            public void onMessage(Void message) {
-                consumer.dispose();
-            }
+        Callback<Void> onStop = message -> {
+            consumer.dispose();
         };
         channels.Stop.subscribe(consumer, onStop);
         consumer.start();

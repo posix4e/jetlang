@@ -21,14 +21,12 @@ public class Ping {
     }
 
     public void start() {
-        Callback<Integer> onReceive = new Callback<Integer>() {
-            public void onMessage(Integer message) {
-                if (total > 0) {
-                    publishPing();
-                } else {
-                    channels.Stop.publish(null);
-                    consumer.dispose();
-                }
+        Callback<Integer> onReceive = message -> {
+            if (total > 0) {
+                publishPing();
+            } else {
+                channels.Stop.publish(null);
+                consumer.dispose();
             }
         };
         channels.Pong.subscribe(consumer, onReceive);
@@ -36,18 +34,11 @@ public class Ping {
 
         //send first ping from ping fiber. The first ping could have been published from the main
         // thread as well, but in this case we'll use the ping fiber to be consistent.
-        Runnable firstPing = new Runnable() {
-            public void run() {
-                publishPing();
-            }
-        };
+        Runnable firstPing = this::publishPing;
         consumer.execute(firstPing);
 
-        Callback<List<Integer>> onBatch = new Callback<List<Integer>>() {
-
-            public void onMessage(List<Integer> message) {
-                //consume all messages.
-            }
+        Callback<List<Integer>> onBatch = message -> {
+            //consume all messages.
         };
         BatchSubscriber<Integer> sub = new BatchSubscriber<>(consumer, onBatch, 0, TimeUnit.MILLISECONDS);
         channels.Ping.subscribe(consumer, sub);

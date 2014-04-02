@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("Convert2Lambda")
 public abstract class FiberBaseTest extends Assert {
     public abstract Fiber createFiber();
 
@@ -43,11 +44,7 @@ public abstract class FiberBaseTest extends Assert {
     public void ScheduleBeforeStart() throws InterruptedException {
         final CountDownLatch reset = new CountDownLatch(1);
 
-        Runnable onReset = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable onReset = reset::countDown;
         _bus.schedule(onReset, 1, TimeUnit.MILLISECONDS);
         _bus.start();
 
@@ -58,17 +55,9 @@ public abstract class FiberBaseTest extends Assert {
     public void ScheduleAndCancelBeforeStart() throws InterruptedException {
         final CountDownLatch reset = new CountDownLatch(1);
         final AtomicBoolean executed = new AtomicBoolean();
-        Runnable toCancel = new Runnable() {
-            public void run() {
-                executed.set(true);
-            }
-        };
+        Runnable toCancel = () -> executed.set(true);
         Disposable control = _bus.schedule(toCancel, 0, TimeUnit.MILLISECONDS);
-        Runnable toRun = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable toRun = reset::countDown;
         _bus.schedule(toRun, 0, TimeUnit.MILLISECONDS);
         control.dispose();
         _bus.start();
@@ -80,11 +69,7 @@ public abstract class FiberBaseTest extends Assert {
     public void ScheduleOne() throws InterruptedException {
         final CountDownLatch reset = new CountDownLatch(1);
         _bus.start();
-        Runnable onReset = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable onReset = reset::countDown;
         _bus.schedule(onReset, 1, TimeUnit.MILLISECONDS);
         assertTrue(reset.await(10, TimeUnit.SECONDS));
     }
@@ -93,11 +78,7 @@ public abstract class FiberBaseTest extends Assert {
     public void scheduleAtFixedRate() throws InterruptedException {
         final CountDownLatch reset = new CountDownLatch(5);
         _bus.start();
-        Runnable onReset = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable onReset = reset::countDown;
         _bus.scheduleAtFixedRate(onReset, 15, 15, TimeUnit.MILLISECONDS);
         assertTrue(reset.await(2, TimeUnit.SECONDS));
     }
@@ -106,11 +87,7 @@ public abstract class FiberBaseTest extends Assert {
     public void scheduleWithFixedDelay() throws InterruptedException {
         final CountDownLatch reset = new CountDownLatch(5);
         _bus.start();
-        Runnable onReset = new Runnable() {
-            public void run() {
-                reset.countDown();
-            }
-        };
+        Runnable onReset = reset::countDown;
         _bus.scheduleWithFixedDelay(onReset, 1, 1, TimeUnit.MILLISECONDS);
         assertTrue(reset.await(10, TimeUnit.SECONDS));
         _bus.dispose();
@@ -138,11 +115,9 @@ public abstract class FiberBaseTest extends Assert {
         channel.publish("hello");
         final List<String> received = new ArrayList<>();
         final CountDownLatch reset = new CountDownLatch(1);
-        Callback<String> onReceive = new Callback<String>() {
-            public void onMessage(String data) {
-                received.add(data);
-                reset.countDown();
-            }
+        Callback<String> onReceive = data -> {
+            received.add(data);
+            reset.countDown();
         };
         channel.subscribe(_bus, onReceive);
         assertEquals(1, channel.subscriberCount());
@@ -159,9 +134,7 @@ public abstract class FiberBaseTest extends Assert {
     public void UnsubOnStop() throws InterruptedException {
         _bus.start();
         MemoryChannel<String> channel = new MemoryChannel<>();
-        Callback<String> onReceive = new Callback<String>() {
-            public void onMessage(String data) {
-            }
+        Callback<String> onReceive = data -> {
         };
         channel.subscribe(_bus, onReceive);
         assertEquals(1, channel.subscriberCount());
@@ -173,9 +146,7 @@ public abstract class FiberBaseTest extends Assert {
     public void Unsub() throws InterruptedException {
         _bus.start();
         MemoryChannel<String> channel = new MemoryChannel<>();
-        Callback<String> onReceive = new Callback<String>() {
-            public void onMessage(String data) {
-            }
+        Callback<String> onReceive = data -> {
         };
         Disposable unsub = channel.subscribe(_bus, onReceive);
         assertEquals(1, channel.subscriberCount());

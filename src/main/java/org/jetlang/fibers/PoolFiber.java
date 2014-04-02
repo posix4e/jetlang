@@ -33,11 +33,7 @@ class PoolFiber implements Fiber {
         _flushExecutor = pool;
         _commandExecutor = executor;
         _scheduler = new SchedulerImpl(this, scheduler);
-        _flushRunnable = new Runnable() {
-            public void run() {
-                flush();
-            }
-        };
+        _flushRunnable = this::flush;
     }
 
     private class SynchronizedQueue {
@@ -94,10 +90,8 @@ class PoolFiber implements Fiber {
 
         if (_started.compareAndSet(state, ExecutionState.Running)) {
             _queue.setRunning(true);
-            execute(new Runnable() {
-                public void run() {
-                    //flush any pending events in execute
-                }
+            execute(() -> {
+                //flush any pending events in execute
             });
         }
     }

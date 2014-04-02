@@ -17,10 +17,8 @@ public class SchedulerImplTest {
         FiberStub stub = new FiberStub();
         SchedulerImpl scheduler = new SchedulerImpl(stub, null);
         final boolean[] executed = new boolean[1];
-        Runnable run = new Runnable() {
-            public void run() {
-                executed[0] = true;
-            }
+        Runnable run = () -> {
+            executed[0] = true;
         };
         scheduler.schedule(run, 0, TimeUnit.MILLISECONDS);
 
@@ -35,10 +33,8 @@ public class SchedulerImplTest {
         FiberStub stub = new FiberStub();
         SchedulerImpl scheduler = new SchedulerImpl(stub, null);
         final boolean[] executed = new boolean[1];
-        Runnable run = new Runnable() {
-            public void run() {
-                executed[0] = true;
-            }
+        Runnable run = () -> {
+            executed[0] = true;
         };
         Disposable d = scheduler.schedule(run, 0, TimeUnit.MILLISECONDS);
 

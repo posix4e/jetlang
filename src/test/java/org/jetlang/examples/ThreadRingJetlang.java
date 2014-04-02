@@ -30,16 +30,14 @@ public class ThreadRingJetlang {
         }
 
         public void enqueue(final Integer hopsRemaining) {
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    if (hopsRemaining == 0) {
-                        System.out.println(name);
-                        done.countDown();
-                        return;
-                    }
-                    int message = hopsRemaining - 1;
-                    nextThread.enqueue(message);
+            Runnable runnable = () -> {
+                if (hopsRemaining == 0) {
+                    System.out.println(name);
+                    done.countDown();
+                    return;
                 }
+                int message = hopsRemaining - 1;
+                nextThread.enqueue(message);
             };
             fiber.execute(runnable);
         }

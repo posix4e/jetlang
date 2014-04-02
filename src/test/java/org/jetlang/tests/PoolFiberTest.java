@@ -37,9 +37,7 @@ public class PoolFiberTest extends FiberBaseTest {
     @Test
     public void ScheduleIntervalWithCancel() throws InterruptedException {
         _bus.start();
-        Runnable onReset = new Runnable() {
-            public void run() {
-            }
+        Runnable onReset = () -> {
         };
         Disposable stopper = _bus.scheduleAtFixedRate(onReset, 15, 15, TimeUnit.MILLISECONDS);
         assertEquals(1, _bus.size());

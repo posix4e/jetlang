@@ -11,11 +11,8 @@ public class SynchronousRunnableQueueTest {
     public void execution() {
         SynchronousDisposingExecutor queue = new SynchronousDisposingExecutor();
         final boolean[] executed = new boolean[1];
-        Runnable run = new Runnable() {
-
-            public void run() {
-                executed[0] = true;
-            }
+        Runnable run = () -> {
+            executed[0] = true;
         };
         queue.execute(run);
         assertTrue(executed[0]);

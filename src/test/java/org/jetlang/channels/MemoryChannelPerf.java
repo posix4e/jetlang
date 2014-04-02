@@ -8,9 +8,7 @@ public class MemoryChannelPerf {
 
     public static void main(String[] args) {
         MemoryChannel<String> channel = new MemoryChannel<>();
-        Callback<String> cb = new Callback<String>() {
-            public void onMessage(String message) {
-            }
+        Callback<String> cb = message -> {
         };
         channel.subscribe(new SynchronousDisposingExecutor(), cb);
         for (int i = 0; i < 1000000; i++) {

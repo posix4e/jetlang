@@ -50,11 +50,9 @@ class BatchCallback<R, V> implements Callback<V>, Runnable, Disposable {
             final Disposable requestDispose = channel.publish(target, req, this);
             if (timeout != null) {
                 final Disposable timer = target.schedule(this, timeout.time, timeout.unit);
-                this.d = new Disposable() {
-                    public void dispose() {
-                        requestDispose.dispose();
-                        timer.dispose();
-                    }
+                this.d = () -> {
+                    requestDispose.dispose();
+                    timer.dispose();
                 };
             } else {
                 d = requestDispose;

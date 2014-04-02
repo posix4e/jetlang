@@ -24,17 +24,15 @@ public class PipelineLatencyMain {
             final boolean isLast = i + 1 == fibers.length;
             final MemoryChannel<Msg> target = !isLast ? channels[i] : null;
             if (prior >= 0) {
-                Callback<Msg> cb = new Callback<Msg>() {
-                    public void onMessage(Msg message) {
-                        if (target != null)
-                            target.publish(message);
-                        else {
-                            long now = System.nanoTime();
-                            long diff = now - message.time;
-                            if (message.log)
-                                System.out.println("diff = " + TimeUnit.NANOSECONDS.toMicros(diff));
-                            message.latch.countDown();
-                        }
+                Callback<Msg> cb = message -> {
+                    if (target != null)
+                        target.publish(message);
+                    else {
+                        long now = System.nanoTime();
+                        long diff = now - message.time;
+                        if (message.log)
+                            System.out.println("diff = " + TimeUnit.NANOSECONDS.toMicros(diff));
+                        message.latch.countDown();
                     }
                 };
                 channels[prior].subscribe(fibers[i], cb);

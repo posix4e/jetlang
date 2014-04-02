@@ -18,23 +18,19 @@ public class MemoryRequestChannel<R, V> implements RequestChannel<R, V> {
     public Disposable subscribe(DisposingExecutor fiber, Callback<Request<R, V>> onRequest, Callback<SessionClosed<R>> onRequestEnd) {
         final Disposable sub = channel.subscribe(fiber, onRequest);
         final Disposable end = endChannel.subscribe(fiber, onRequestEnd);
-        return new Disposable() {
-            public void dispose() {
-                sub.dispose();
-                end.dispose();
-            }
+        return () -> {
+            sub.dispose();
+            end.dispose();
         };
     }
 
     public Disposable publish(DisposingExecutor target, final R request, Callback<V> reply) {
         final RequestImpl req = new RequestImpl(target, request, reply);
         channel.publish(req);
-        return new Disposable() {
-            public void dispose() {
-                if (req.dispose()) {
-                    SessionClosed<R> end = new SessionClosedImpl<>(request, req.getSession());
-                    endChannel.publish(end);
-                }
+        return () -> {
+            if (req.dispose()) {
+                SessionClosed<R> end = new SessionClosedImpl<>(request, req.getSession());
+                endChannel.publish(end);
             }
         };
     }
@@ -65,10 +61,8 @@ public class MemoryRequestChannel<R, V> implements RequestChannel<R, V> {
         }
 
         public void reply(final V msg) {
-            Runnable onMsg = new Runnable() {
-                public void run() {
-                    consumeMsg(msg);
-                }
+            Runnable onMsg = () -> {
+                consumeMsg(msg);
             };
             target.execute(onMsg);
         }

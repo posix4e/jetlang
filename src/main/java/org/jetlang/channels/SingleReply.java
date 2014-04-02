@@ -14,10 +14,8 @@ class SingleReply {
         AsyncRequest<R, V> async = new AsyncRequest<>(fiber);
         async.setResponseCount(1);
 
-        Callback<List<V>> onMsg = new Callback<List<V>>() {
-            public void onMessage(List<V> message) {
-                reply.onMessage(message.get(0));
-            }
+        Callback<List<V>> onMsg = message -> {
+            reply.onMessage(message.get(0));
         };
         return async.publish(channel, request, onMsg);
     }
@@ -27,16 +25,12 @@ class SingleReply {
                                             long timeout, TimeUnit unit, final Runnable onTimeout) {
         AsyncRequest<R, V> async = new AsyncRequest<>(fiber);
         async.setResponseCount(1);
-        final Callback<List<V>> onListTimeout = new Callback<List<V>>() {
-            public void onMessage(List<V> message) {
-                onTimeout.run();
-            }
+        final Callback<List<V>> onListTimeout = message -> {
+            onTimeout.run();
         };
         async.setTimeout(onListTimeout, timeout, unit);
-        Callback<List<V>> onMsg = new Callback<List<V>>() {
-            public void onMessage(List<V> message) {
-                reply.onMessage(message.get(0));
-            }
+        Callback<List<V>> onMsg = message -> {
+            reply.onMessage(message.get(0));
         };
         return async.publish(channel, request, onMsg);
     }

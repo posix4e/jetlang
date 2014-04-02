@@ -15,12 +15,9 @@ public class CompositeChannel<T> implements Channel<T> {
 
     public Disposable subscribe(DisposingExecutor executor, Callback<T> receive) {
         final Disposable[] all = new Disposable[channels.length];
-        Disposable d = new Disposable() {
-
-            public void dispose() {
-                for (Disposable disposable : all) {
-                    disposable.dispose();
-                }
+        Disposable d = () -> {
+            for (Disposable disposable : all) {
+                disposable.dispose();
             }
         };
 
@@ -33,12 +30,9 @@ public class CompositeChannel<T> implements Channel<T> {
 
     public Disposable subscribe(Subscribable<T> sub) {
         final Disposable[] all = new Disposable[channels.length];
-        Disposable d = new Disposable() {
-
-            public void dispose() {
-                for (Disposable disposable : all) {
-                    disposable.dispose();
-                }
+        Disposable d = () -> {
+            for (Disposable disposable : all) {
+                disposable.dispose();
             }
         };
 

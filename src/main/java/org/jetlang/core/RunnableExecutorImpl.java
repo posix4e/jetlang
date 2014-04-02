@@ -44,10 +44,8 @@ public class RunnableExecutorImpl implements RunnableExecutor {
     public void dispose() {
         _commands.setRunning(false);
 
-        execute(new Runnable() {
-            public void run() {
-                // so it wakes up and will notice that we've told it to stop
-            }
+        execute(() -> {
+            // so it wakes up and will notice that we've told it to stop
         });
 
         synchronized (_disposables) {
