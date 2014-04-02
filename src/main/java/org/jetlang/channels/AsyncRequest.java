@@ -7,11 +7,6 @@ import org.jetlang.fibers.Fiber;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Jan 31, 2009
- * Time: 1:31:46 PM
- */
 public class AsyncRequest<R, V> {
     private Fiber target;
     private BatchTimeout<V> timeout;

@@ -9,11 +9,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Jul 23, 2008
- * Time: 8:04:04 PM
- */
 public class PoolFiberTest extends FiberBaseTest {
 
     private ExecutorService _executor;

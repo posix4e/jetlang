@@ -6,11 +6,6 @@ import org.jetlang.core.DisposingExecutor;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * User: mrettig
- * Date: Jan 31, 2009
- * Time: 10:42:42 AM
- */
 public class MemoryRequestChannel<R, V> implements RequestChannel<R, V> {
 
     private final MemoryChannel<Request<R, V>> channel = new MemoryChannel<Request<R, V>>();

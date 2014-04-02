@@ -12,11 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Dec 7, 2008
- * Time: 12:50:58 PM
- */
 public class PingPongTest {
 
     @Test

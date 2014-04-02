@@ -3,11 +3,6 @@ package org.jetlang.examples.pingpong;
 import org.jetlang.core.Callback;
 import org.jetlang.fibers.Fiber;
 
-/**
- * User: mrettig
- * Date: Dec 7, 2008
- * Time: 12:36:33 PM
- */
 public class Pong {
 
     private PingPongChannels channels;

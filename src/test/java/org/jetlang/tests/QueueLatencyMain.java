@@ -6,10 +6,6 @@ import org.jetlang.fibers.ThreadFiber;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Sep 28, 2009
- */
 public class QueueLatencyMain {
 
     public static void main(String[] args) throws InterruptedException {

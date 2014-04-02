@@ -3,11 +3,7 @@ package org.jetlang.channels;
 import org.jetlang.core.Callback;
 import org.jetlang.core.SynchronousDisposingExecutor;
 
-/**
- * User: mrettig
- * Date: Aug 31, 2008
- * Time: 8:44:54 AM
- */
+
 public class MemoryChannelPerf {
 
     public static void main(String[] args) {

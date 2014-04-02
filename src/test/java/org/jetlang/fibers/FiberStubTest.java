@@ -8,11 +8,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * User: mrettig
- * Date: 11/29/11
- * Time: 4:50 PM
- */
 public class FiberStubTest {
 
     Runnable emptyRunnable = new Runnable() {

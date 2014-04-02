@@ -8,11 +8,6 @@ import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Jul 23, 2008
- * Time: 8:40:58 PM
- */
 public class ThreadFiberTest extends FiberBaseTest {
 
     @Override

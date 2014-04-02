@@ -7,11 +7,7 @@ import org.jetlang.fibers.Fiber;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Dec 7, 2008
- * Time: 12:36:33 PM
- */
+
 public class Ping {
 
     private PingPongChannels channels;

@@ -5,10 +5,6 @@ import org.jetlang.core.Callback;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * User: mrettig
- * Date: Aug 29, 2009
- */
 public class SubscriberList<T> {
 
     private static final Callback[] EMPTY = new Callback[0];

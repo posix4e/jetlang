@@ -11,10 +11,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * User: mrettig
- * Date: Aug 29, 2009
- */
 public class SubscriberListTest {
 
     @Test

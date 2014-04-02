@@ -7,11 +7,6 @@ import org.jetlang.fibers.Fiber;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Jan 31, 2009
- * Time: 5:10:16 PM
- */
 class SingleReply {
 
     public static <R, V> Disposable publish(Fiber fiber,

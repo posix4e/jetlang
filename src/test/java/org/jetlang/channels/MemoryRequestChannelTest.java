@@ -20,11 +20,6 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-/**
- * User: mrettig
- * Date: Jan 31, 2009
- * Time: 10:58:18 AM
- */
 public class MemoryRequestChannelTest {
     private static ExecutorService pool;
     private static PoolFiberFactory fiberPool;

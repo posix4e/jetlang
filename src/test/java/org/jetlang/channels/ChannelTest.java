@@ -27,11 +27,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * User: mrettig
- * Date: Jul 26, 2008
- * Time: 9:19:23 AM
- */
 public class ChannelTest {
 
     @Test

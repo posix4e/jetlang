@@ -5,11 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * User: mrettig
- * Date: Jul 27, 2008
- * Time: 1:03:34 PM
- */
 public class SynchronousRunnableQueueTest {
 
     @Test

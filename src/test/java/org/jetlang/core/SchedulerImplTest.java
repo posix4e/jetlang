@@ -9,11 +9,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * User: mrettig
- * Date: Jul 16, 2009
- * Time: 12:47:34 PM
- */
+
 public class SchedulerImplTest {
 
     @Test

@@ -7,11 +7,6 @@ import org.jetlang.fibers.ThreadFiber;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-/**
- * User: mrettig
- * Date: Jul 19, 2010
- * Time: 4:14:39 PM
- */
 public class PipelineLatencyMain {
 
     public static void main(String[] args) throws InterruptedException {

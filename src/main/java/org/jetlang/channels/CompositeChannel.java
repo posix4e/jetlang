@@ -4,10 +4,6 @@ import org.jetlang.core.Callback;
 import org.jetlang.core.Disposable;
 import org.jetlang.core.DisposingExecutor;
 
-/**
- * User: mrettig
- * Date: Sep 6, 2009
- */
 public class CompositeChannel<T> implements Channel<T> {
 
     private final Channel<T>[] channels;
