@@ -90,7 +90,10 @@ public class ThreadFiber implements Fiber {
     /**
      * Wait for thread to complete
      *
-     * @throws java.lang.InterruptedException
+     * @throws  InterruptedException
+     *          if any thread has interrupted the current thread. The
+     *          <i>interrupted status</i> of the current thread is
+     *          cleared when this exception is thrown.
      */
     public void join() throws InterruptedException {
         _thread.join();
