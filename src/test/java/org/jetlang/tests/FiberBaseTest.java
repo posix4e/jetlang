@@ -1,11 +1,11 @@
 package org.jetlang.tests;
 
-import junit.framework.Assert;
 import org.jetlang.channels.MemoryChannel;
 import org.jetlang.core.Callback;
 import org.jetlang.core.Disposable;
 import org.jetlang.fibers.Fiber;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
