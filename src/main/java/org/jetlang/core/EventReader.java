@@ -1,5 +1,7 @@
 package org.jetlang.core;
 
+import java.util.Iterator;
+
 public interface EventReader extends MessageReader<Runnable> {
-    Runnable get(int index);
+    public Iterator<Runnable> iterator();
 }

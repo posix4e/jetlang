@@ -1,9 +1,10 @@
 package org.jetlang.core;
 
+import java.util.Iterator;
+
 public interface MessageReader<T> {
 
-    int size();
-
-    T get(int index);
+    public Iterator<T> iterator();
+    public int size();
 
 }

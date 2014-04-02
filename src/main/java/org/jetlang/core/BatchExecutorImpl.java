@@ -1,5 +1,7 @@
 package org.jetlang.core;
 
+import java.util.Iterator;
+
 /**
  * Default implementation that simply executes all events.
  *
@@ -7,8 +9,9 @@ package org.jetlang.core;
  */
 public class BatchExecutorImpl implements BatchExecutor {
     public void execute(EventReader toExecute) {
-        for (int i = 0; i < toExecute.size(); i++) {
-            toExecute.get(i).run();
+        Iterator<Runnable> iterator = toExecute.iterator();
+        while(iterator.hasNext()){
+            iterator.next().run();
         }
     }
 }

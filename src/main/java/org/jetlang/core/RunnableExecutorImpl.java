@@ -1,8 +1,7 @@
 package org.jetlang.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Iterator;
 
 /**
  * Default implementation that queues and executes events. A dedicated thread is typically
@@ -11,7 +10,7 @@ import java.util.List;
 public class RunnableExecutorImpl implements RunnableExecutor {
 
     private final EventQueue _commands;
-    private final List<Disposable> _disposables = Collections.synchronizedList(new ArrayList<>());
+    private final ArrayDeque<Disposable> _disposables = new ArrayDeque<>();
 
     private final BatchExecutor _commandExecutor;
 
@@ -43,15 +42,13 @@ public class RunnableExecutorImpl implements RunnableExecutor {
 
     public void dispose() {
         _commands.setRunning(false);
-
         execute(() -> {
             // so it wakes up and will notice that we've told it to stop
         });
-
         synchronized (_disposables) {
-            //copy list to prevent concurrent mod
-            for (Disposable r : _disposables.toArray(new Disposable[_disposables.size()])) {
-                r.dispose();
+            Iterator<Disposable> iterator = _disposables.descendingIterator();
+            while (iterator.hasNext()) {
+                iterator.next().dispose();
             }
         }
     }

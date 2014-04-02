@@ -4,6 +4,7 @@ import org.jetlang.core.Callback;
 import org.jetlang.core.MessageReader;
 import org.jetlang.fibers.ThreadFiber;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
@@ -47,8 +48,9 @@ public class LockFreeBatchSubscriberPerf {
             int count = 0;
 
             public void onMessage(MessageReader<String> message) {
-                for (int val = 0; val < message.size(); val++) {
-                    String m = message.get(val);
+                Iterator<String> iterator = message.iterator();
+                while (iterator.hasNext()){
+                    String m = iterator.next();
                     count++;
                 }
                 if (count >= total) {
