@@ -215,4 +215,10 @@
         </site>
     </distributionManagement>
 
+    <issueManagement>
+        <url>https://github.com/jetlang/jetlang/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
+
+
 </project>
