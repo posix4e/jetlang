@@ -9,7 +9,7 @@ import org.jetlang.core.Scheduler;
  * {@link org.jetlang.channels.Channel}. Fibers can be backed by a dedicated thread ({@link ThreadFiber}) or use
  * a thread pool ({@link PoolFiberFactory}).
  *
- * Events executed by Fiber will be processed sequentially.
+ * Events executed by Fiber will be processed sequentially and in order of how they are inserted.
  *
  * @author mrettig
  */
